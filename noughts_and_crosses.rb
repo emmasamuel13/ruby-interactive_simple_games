@@ -38,3 +38,18 @@ if grid.include?(z)
 else
     puts "Please put a number from 1 to 9"
 end
+
+y = og_grid.sample #need to run this until y is equal to a number still in grid
+
+puts "Now it's my turn"
+
+grid = grid.map do |i|
+    if i == y
+        "O"
+    else
+        i
+    end
+end
+puts "#{grid[0..2]}
+#{grid[3..5]}
+#{grid[6..8]}"
