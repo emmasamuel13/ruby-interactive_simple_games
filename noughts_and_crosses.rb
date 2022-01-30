@@ -1,55 +1,68 @@
-#puts "Hi, let's play noughts and crosses, do you know how to play?"
-#y_or_n = gets.chomp.downcase
-#if y_or_n == "yes"
-#    puts "Wonderful, I'll be noughts and you'll be crosses, you start, let's go!"
-#elsif y_or_n == "no"
-#    puts "Okay, we have nine spaces in a three by three grid, we take it in turns to put our symbol (noughts or crosses) in the grid, first to get three in a row, either vertically, horizontally or diagonally wins!
-#    I'll be noughts and you'll be crosses, you start, let's go!"
-#else
-#    "Sorry, I'm gonna need a yes or a no!"
-#end
-#
+board = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
-puts "1 2 3
-4 5 6
-7 8 9
-
-That's our grid, when you know where you want to put your cross simply type the number and I'll put it there!
-
-Where would you like to put your first cross?"
-
-z = gets.chomp.to_f
-
-og_grid = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-
-grid = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-
-if grid.include?(z)
-    grid = grid.map do |i|
-        if i == z
-            "X"
-        else
-            i
+def placement(board, piece, position)
+    board.each_with_index do |_, ind|
+        if ind == position - 1
+            board[ind] = piece
         end
     end
-    puts "#{grid[0..2]}
-#{grid[3..5]}
-#{grid[6..8]}"
-else
-    puts "Please put a number from 1 to 9"
+    return board
 end
 
-y = og_grid.sample #need to run this until y is equal to a number still in grid
+def board_display(board)
+    "#{board[0]} #{board[1]} #{board[2]}
+#{board[3]} #{board[4]} #{board[5]}
+#{board[6]} #{board[7]} #{board[8]}"
+end
 
-puts "Now it's my turn"
-
-grid = grid.map do |i|
-    if i == y
-        "O"
+def game_end(board)
+    congrats = "Congratulations, we have a winner!"
+    if board == [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        return false
+    elsif board[0] == board[1] && board[0] == board[2]
+        puts congrats
+    elsif board[3] == board[4] && board[3] == board[5]
+        puts congrats
+    elsif board[6] == board[7] && board[6] == board[8]
+        puts congrats
+    elsif board[0] == board[3] && board[0] == board[6]
+        puts congrats
+    elsif board[1] == board[4] && board[1] == board[7]
+        puts congrats
+    elsif board[2] == board[5] && board[2] == board[8]
+        puts congrats
+    elsif board[0] == board[4] && board[0] == board[8]
+        puts congrats
+    elsif board[2] == board[4] && board[2] == board[6]
+        puts congrats
     else
-        i
+        return false
     end
 end
-puts "#{grid[0..2]}
-#{grid[3..5]}
-#{grid[6..8]}"
+
+is_there_a_winner = game_end(board)
+
+while is_there_a_winner == false
+    puts "where would you like to place your X?"
+    piece = "X"
+    position = gets.chomp
+    position = position.to_i
+    board = placement(board, piece, position)
+    puts board_display(board)
+    is_there_a_winner = game_end(board)
+
+    puts "where would you like to place your X?"
+    piece = "O"
+    position = gets.chomp
+    position = position.to_i
+    board = placement(board, piece, position)
+    puts board_display(board)
+    is_there_a_winner = game_end(board)
+end
+
+#to improve:
+#   if crosses wins then noughts can still place a piece for one more turn
+#   if there isn't a winner then nothing happens
+#   there is nothing stopping a player from overriding another player's piece
+#   currently it is just stated that there is a winner, who is the winner?
+#   make an automated version
