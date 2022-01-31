@@ -18,6 +18,13 @@ def location(board, piece, position)
     return board
 end
 
+def turn_play(piece, board)
+    puts "where would you like to place your #{piece}?"
+    position = gets.chomp
+    board = location(board, piece, position)
+    return board
+end
+
 def board_display(board)
     "#{board[0]} #{board[1]} #{board[2]}
 #{board[3]} #{board[4]} #{board[5]}
@@ -26,6 +33,7 @@ end
 
 def game_end(board)
     congrats = "Congratulations, we have a winner!"
+    bad_luck = "Oh no, it's a draw."
     if board == [1, 2, 3, 4, 5, 6, 7, 8, 9]
         return false
     elsif board[0] == board[1] && board[0] == board[2]
@@ -44,16 +52,11 @@ def game_end(board)
         puts congrats
     elsif board[2] == board[4] && board[2] == board[6]
         puts congrats
+    elsif board.all? {|place| place.is_a?(String) }
+        puts bad_luck
     else
         return false
     end
-end
-
-def turn_play(piece, board)
-    puts "where would you like to place your #{piece}?"
-    position = gets.chomp
-    board = location(board, piece, position)
-    return board
 end
 
 is_there_a_winner = game_end(board)
@@ -71,7 +74,6 @@ while is_there_a_winner == false
 end
 
 #to improve:
-#   if there isn't a winner then nothing happens
 #   there is nothing stopping a player from overriding another player's piece
 #   currently it is just stated that there is a winner, who is the winner?
 #   make an automated version
